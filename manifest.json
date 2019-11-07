@@ -1,0 +1,11 @@
+{
+  "manifest_version": 2,
+  "name": "Riki's Utils",
+  "version": "0.1",
+  "offline_enabled": true,
+  "browser_action": {
+    "default_title": "Riki's Utils",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["cookies", "<all_urls>", "tabs", "storage"]
+}
