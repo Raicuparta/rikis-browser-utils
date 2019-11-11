@@ -2,21 +2,30 @@
 <html>
   <head>
     <script type="text/javascript" src="popup.js"></script>
+    <style>
+      button {
+        width: 100%;
+        padding: 5px;
+      }
+      input {
+        margin-top: 20px;
+        border: solid 1px lightgray;
+        padding: 5px;
+      }
+    </style>
   </head>
   <body>
     <h3 style="font-weight:bold; text-align:center;">Riki's Utils</h3>
     <button id="copy-dev-context">
       Copy DevContext
     </button>
-    <hr />
     <input type="text" id="copy-cookie-input" value="AS24ApiAuth_int" />
     <button id="copy-cookie-button">
-      Copy Cookie Value
+      Save Cookie Value
     </button>
-    <hr />
     <input type="text" id="paste-cookie-input" value="AS24ApiAuth" />
     <button id="paste-cookie-button">
-      Paste Cookie Value
+      Load Cookie Value
     </button>
   </body>
 </html>
