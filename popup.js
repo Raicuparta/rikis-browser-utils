@@ -39,13 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
           active: true
         },
         function(tab) {
-          console.error('tab0', getOriginUrl());
           chrome.cookies.getAll({ url: getOriginUrl() }, function (cookie) {
             for (i = 0; i < cookie.length; i++) {
-              if (cookie[i].name === getDestinationName()) {
+              if (cookie[i].name === getOriginName()) {
                 chrome.cookies.set({
                   url: tab[0].url,
-                  name: getOriginName(),
+                  name: getDestinationName(),
                   value: cookie[i].value
                 }, () => {
                   chrome.tabs.reload();
