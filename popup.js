@@ -13,43 +13,12 @@ document.addEventListener("DOMContentLoaded", function() {
           active: true
         },
         function(tab) {
-          chrome.cookies.getAll({ url: tab[0].url }, function(cookie) {
-            allCookieInfo = "";
+          chrome.cookies.getAll({ url: 'https://int.autoscout24.ch/' }, function(cookie) {
             for (i = 0; i < cookie.length; i++) {
               if (cookie[i].name === cookieName) {
                 const { access, refresh } = JSON.parse(cookie[i].value);
                 copyTextToClipboard(template(access.value, refresh.value));
               }
-              allCookieInfo = allCookieInfo + JSON.stringify(cookie[i]);
-            }
-            localStorage.currentCookieInfo = allCookieInfo;
-          });
-        }
-      );
-    });
-
-  document
-    .getElementById("copy-cookie-button")
-    .addEventListener("click", function() {
-      const cookieName = "AS24ApiAuth_int";
-
-      chrome.tabs.query(
-        {
-          status: "complete",
-          windowId: chrome.windows.WINDOW_ID_CURRENT,
-          active: true
-        },
-        function(tab) {
-          chrome.cookies.getAll({ url: tab[0].url }, function(cookie) {
-            allCookieInfo = "";
-            for (i = 0; i < cookie.length; i++) {
-              if (cookie[i].name === cookieName) {
-                chrome.storage.local.set({
-                  cookieValue: cookie[i].value
-                });
-                copyTextToClipboard(cookie[i].value);
-              }
-              allCookieInfo = allCookieInfo + JSON.stringify(cookie[i]);
             }
           });
         }
@@ -57,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
   document
-    .getElementById("paste-cookie-button")
+    .getElementById("move-cookie")
     .addEventListener("click", function() {
       const cookieName = "AS24ApiAuth";
 
@@ -75,6 +44,19 @@ document.addEventListener("DOMContentLoaded", function() {
               value: result.cookieValue
             })
           );
+          chrome.cookies.getAll({ url: 'https://int.autoscout24.ch' }, function (cookie) {
+            for (i = 0; i < cookie.length; i++) {
+              if (cookie[i].name === cookieName) {
+                chrome.cookies.set({
+                  url: tab[0].url,
+                  name: "AS24ApiAuth_int",
+                  value: cookie[i].value
+                }, () => {
+                  chrome.tabs.reload();
+                })
+              }
+            }
+          });
         }
       );
     });

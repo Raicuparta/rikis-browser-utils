@@ -3,29 +3,45 @@
   <head>
     <script type="text/javascript" src="popup.js"></script>
     <style>
+      body {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+      }
       button {
-        width: 100%;
         padding: 5px;
       }
       input {
-        margin-top: 20px;
         border: solid 1px lightgray;
         padding: 5px;
+      }
+      label {
+        font-size: 10px;
+        display: block;
+      }
+      hr {
+        width: 100%;
+      }
+      .mb {
+        margin-bottom: 10px;
       }
     </style>
   </head>
   <body>
     <h3 style="font-weight:bold; text-align:center;">Riki's Utils</h3>
+    <label>Origin Cookie Name</label>
+    <input class="mb" type="text" id="origin-cookie-name" value="AS24ApiAuth_int" />
+    <label>Origin Cookie URL</label>
+    <input class="mb" type="text" id="origin-cookie-url" value="int.autoscout24.ch" />
+    <hr />
     <button id="copy-dev-context">
-      Copy DevContext
+      DevContext to Clipboard
     </button>
-    <input type="text" id="copy-cookie-input" value="AS24ApiAuth_int" />
-    <button id="copy-cookie-button">
-      Save Cookie Value
-    </button>
-    <input type="text" id="paste-cookie-input" value="AS24ApiAuth" />
-    <button id="paste-cookie-button">
-      Load Cookie Value
+    <hr class="mb" />
+    <label>Destination Cookie Name</label>
+    <input type="text" id="mvoe-cookie-to-name" value="AS24ApiAuth" />
+    <button id="move-cookie">
+      Copy Cookie to this Tab
     </button>
   </body>
 </html>
