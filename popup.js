@@ -1,60 +1,46 @@
 const log = args => chrome.extension.getBackgroundPage().console.log(args);
+const getElement = id => document.getElementById(id);
 
-document.addEventListener('DOMContentLoaded', function() {
-  const getOriginName = () => document.getElementById('origin-cookie-name').value;
-  const getOriginUrl = () => document.getElementById('origin-cookie-url').value;
-  const getDestinationName = () => document.getElementById('destination-cookie-name').value;
+document.addEventListener("DOMContentLoaded", () => {
+  const getOriginName = () => getElement("origin-cookie-name").value;
+  const getOriginUrl = () => getElement("origin-cookie-url").value;
+  const getDestinationName = () => getElement("destination-cookie-name").value;
 
-  document
-    .getElementById('copy-dev-context')
-    .addEventListener('click', function() {
-      const cookieName = 'AS24ApiAuth_int';
+  getElement("copy-dev-context").addEventListener("click", () => {
+    chrome.cookies.get(
+      {
+        url: getOriginUrl(),
+        name: getOriginName()
+      },
+      cookie => {
+        const { access, refresh } = JSON.parse(cookie.value);
+        copyTextToClipboard(template(access.value, refresh.value));
+      }
+    );
+  });
 
-      chrome.tabs.query(
+  getElement("move-cookie").addEventListener("click", () => {
+    chrome.tabs.getCurrent(tab => {
+      chrome.cookies.get(
         {
-          status: 'complete',
-          windowId: chrome.windows.WINDOW_ID_CURRENT,
-          active: true
+          url: getOriginUrl(),
+          name: getOriginName()
         },
-        function(tab) {
-          chrome.cookies.getAll({ url: getOriginUrl() }, function(cookie) {
-            for (i = 0; i < cookie.length; i++) {
-              if (cookie[i].name === cookieName) {
-                const { access, refresh } = JSON.parse(cookie[i].value);
-                copyTextToClipboard(template(access.value, refresh.value));
-              }
+        cookie => {
+          chrome.cookies.set(
+            {
+              url: tab.url,
+              name: getDestinationName(),
+              value: cookie.value
+            },
+            () => {
+              chrome.tabs.reload();
             }
-          });
+          );
         }
       );
     });
-
-  document
-    .getElementById('move-cookie')
-    .addEventListener('click', function() {
-      chrome.tabs.query(
-        {
-          status: 'complete',
-          windowId: chrome.windows.WINDOW_ID_CURRENT,
-          active: true
-        },
-        function(tab) {
-          chrome.cookies.getAll({ url: getOriginUrl() }, function (cookie) {
-            for (i = 0; i < cookie.length; i++) {
-              if (cookie[i].name === getOriginName()) {
-                chrome.cookies.set({
-                  url: tab[0].url,
-                  name: getDestinationName(),
-                  value: cookie[i].value
-                }, () => {
-                  chrome.tabs.reload();
-                })
-              }
-            }
-          });
-        }
-      );
-    });
+  });
 });
 
 const template = (access, refresh) => `/* eslint-disable */
@@ -115,27 +101,11 @@ const config = {
 export default config;`;
 
 function copyTextToClipboard(text) {
-  //Create a textbox field where we can insert text to.
-  var copyFrom = document.createElement('textarea');
-
-  //Set the text content to be the text you wished to copy.
+  var copyFrom = document.createElement("textarea");
   copyFrom.textContent = text;
-
-  //Append the textbox field into the body as a child.
-  //'execCommand()' only works when there exists selected text, and the text is inside
-  //document.body (meaning the text is part of a valid rendered HTML element).
   document.body.appendChild(copyFrom);
-
-  //Select all the text!
   copyFrom.select();
-
-  //Execute command
-  document.execCommand('copy');
-
-  //(Optional) De-select the text using blur().
+  document.execCommand("copy");
   copyFrom.blur();
-
-  //Remove the textbox field from the document.body, so no other JavaScript nor
-  //other elements can get access to this.
   document.body.removeChild(copyFrom);
 }
