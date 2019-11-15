@@ -7,5 +7,5 @@
     "default_title": "Riki's Utils",
     "default_popup": "popup.html"
   },
-  "permissions": ["cookies", "<all_urls>", "tabs", "storage"]
+  "permissions": ["cookies", "<all_urls>", "tabs"]
 }
