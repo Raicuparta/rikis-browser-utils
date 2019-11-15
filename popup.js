@@ -20,26 +20,32 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   getElement("move-cookie").addEventListener("click", () => {
-    chrome.tabs.getCurrent(tab => {
-      chrome.cookies.get(
-        {
-          url: getOriginUrl(),
-          name: getOriginName()
-        },
-        cookie => {
-          chrome.cookies.set(
-            {
-              url: tab.url,
-              name: getDestinationName(),
-              value: cookie.value
-            },
-            () => {
-              chrome.tabs.reload();
-            }
-          );
-        }
-      );
-    });
+    chrome.tabs.query(
+      {
+        currentWindow: true,
+        active: true
+      },
+      ([tab]) => {
+        chrome.cookies.get(
+          {
+            url: getOriginUrl(),
+            name: getOriginName()
+          },
+          cookie => {
+            chrome.cookies.set(
+              {
+                url: tab.url,
+                name: getDestinationName(),
+                value: cookie.value
+              },
+              () => {
+                chrome.tabs.reload();
+              }
+            );
+          }
+        );
+      }
+    );
   });
 });
 
