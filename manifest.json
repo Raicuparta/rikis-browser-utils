@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Riki's Utils",
-  "version": "0.1",
+  "version": "1.1",
   "offline_enabled": true,
   "browser_action": {
     "default_title": "Riki's Utils",
