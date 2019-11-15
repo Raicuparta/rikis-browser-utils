@@ -1,19 +1,23 @@
 const log = args => chrome.extension.getBackgroundPage().console.log(args);
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function() {
+  const getOriginName = () => document.getElementById('origin-cookie-name').value;
+  const getOriginUrl = () => document.getElementById('origin-cookie-url').value;
+  const getDestinationName = () => document.getElementById('destination-cookie-name').value;
+
   document
-    .getElementById("copy-dev-context")
-    .addEventListener("click", function() {
-      const cookieName = "AS24ApiAuth_int";
+    .getElementById('copy-dev-context')
+    .addEventListener('click', function() {
+      const cookieName = 'AS24ApiAuth_int';
 
       chrome.tabs.query(
         {
-          status: "complete",
+          status: 'complete',
           windowId: chrome.windows.WINDOW_ID_CURRENT,
           active: true
         },
         function(tab) {
-          chrome.cookies.getAll({ url: 'https://int.autoscout24.ch/' }, function(cookie) {
+          chrome.cookies.getAll({ url: getOriginUrl() }, function(cookie) {
             for (i = 0; i < cookie.length; i++) {
               if (cookie[i].name === cookieName) {
                 const { access, refresh } = JSON.parse(cookie[i].value);
@@ -26,30 +30,22 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
   document
-    .getElementById("move-cookie")
-    .addEventListener("click", function() {
-      const cookieName = "AS24ApiAuth";
-
+    .getElementById('move-cookie')
+    .addEventListener('click', function() {
       chrome.tabs.query(
         {
-          status: "complete",
+          status: 'complete',
           windowId: chrome.windows.WINDOW_ID_CURRENT,
           active: true
         },
         function(tab) {
-          chrome.storage.local.get("cookieValue", result =>
-            chrome.cookies.set({
-              url: tab[0].url,
-              name: cookieName,
-              value: result.cookieValue
-            })
-          );
-          chrome.cookies.getAll({ url: 'https://int.autoscout24.ch' }, function (cookie) {
+          console.error('tab0', getOriginUrl());
+          chrome.cookies.getAll({ url: getOriginUrl() }, function (cookie) {
             for (i = 0; i < cookie.length; i++) {
-              if (cookie[i].name === cookieName) {
+              if (cookie[i].name === getDestinationName()) {
                 chrome.cookies.set({
                   url: tab[0].url,
-                  name: "AS24ApiAuth_int",
+                  name: getOriginName(),
                   value: cookie[i].value
                 }, () => {
                   chrome.tabs.reload();
@@ -121,13 +117,13 @@ export default config;`;
 
 function copyTextToClipboard(text) {
   //Create a textbox field where we can insert text to.
-  var copyFrom = document.createElement("textarea");
+  var copyFrom = document.createElement('textarea');
 
   //Set the text content to be the text you wished to copy.
   copyFrom.textContent = text;
 
   //Append the textbox field into the body as a child.
-  //"execCommand()" only works when there exists selected text, and the text is inside
+  //'execCommand()' only works when there exists selected text, and the text is inside
   //document.body (meaning the text is part of a valid rendered HTML element).
   document.body.appendChild(copyFrom);
 
@@ -135,7 +131,7 @@ function copyTextToClipboard(text) {
   copyFrom.select();
 
   //Execute command
-  document.execCommand("copy");
+  document.execCommand('copy');
 
   //(Optional) De-select the text using blur().
   copyFrom.blur();
