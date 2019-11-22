@@ -1,8 +1,6 @@
 const getElement = id => document.getElementById(id);
 
-let fieldsMap = {}
-optionFields.forEach(({ defaultValue, id, name }) => {
-  fieldsMap[id] = defaultValue;
+Object.entries(optionFields).forEach(([id, { defaultValue, name }]) => {
   const input = document.createElement("input");
   const label = document.createElement("label");
 
@@ -19,9 +17,9 @@ optionFields.forEach(({ defaultValue, id, name }) => {
 });
 
 function setupFields() {
-  chrome.storage.local.get(fieldsMap, items => {
-    optionFields.forEach(field => {
-      getElement(field.id).value = items[field.id];
+  chrome.storage.local.get(optionKeyValues, items => {
+    Object.keys(optionFields).forEach(id => {
+      getElement(id).value = items[id];
     });
   });
 }

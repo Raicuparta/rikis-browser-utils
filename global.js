@@ -1,32 +1,31 @@
-const optionFields = [
-  {
-    id: "origin-cookie-name",
+const optionFields = {
+  originCookieName: {
     defaultValue: "AS24ApiAuth_int",
     name: "Origin Cookie Name"
   },
-  {
-    id: "origin-cookie-url",
+  originCookieUrl: {
     defaultValue: "https://int.autoscout24.ch/de",
     name: "Origin Cookie Url"
   },
-  {
-    id: "destination-cookie-name",
+  destinationCookieName: {
     defaultValue: "AS24ApiAuth",
     name: "Destination Cookie Name"
   },
-  {
-    id: "test-cookie-name",
+  testCookieName: {
     defaultValue: "NODE_SERVER_NAME",
     name: "Test Cookie Name"
   },
-  {
-    id: "test-cookie-domain",
+  testCookieDomain: {
     defaultValue: "int.autoscout24.ch",
     name: "Test Cookie Domain"
   },
-  {
-    id: "test-cookie-url",
+  testCookieUrl: {
     defaultValue: "https://int.autoscout24.ch/de",
     name: "Test Cookie Url"
-  }
-];
+  },
+};
+
+const optionKeyValues = {}
+Object.entries(optionFields).forEach(([key, { defaultValue }]) => {
+  optionKeyValues[key] = defaultValue;
+});

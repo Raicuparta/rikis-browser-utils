@@ -12,9 +12,5 @@
     "persistent": false
   },
   "options_page": "options.html",
-  "options_ui_comment": {
-    "page": "options.html",
-    "open_in_tab": false
-  },
   "permissions": ["cookies", "<all_urls>", "tabs", "storage"]
 }

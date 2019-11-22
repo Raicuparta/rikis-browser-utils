@@ -1,34 +1,33 @@
 const log = args => chrome.extension.getBackgroundPage().console.log(args);
 const getElement = id => document.getElementById(id);
-const testServerCookieName = "NODE_SERVER_NAME";
-const intDomain = "int.autoscout24.ch";
 
-const getOriginName = () => getElement("origin-cookie-name").value;
-const getOriginUrl = () => getElement("origin-cookie-url").value;
-const getDestinationName = () => getElement("destination-cookie-name").value;
-const refresh = () =>
-  chrome.tabs.update(null, {
-    url: getOriginUrl()
-  });
+chrome.storage.local.get(optionKeyValues, items => {
+  const refresh = () => {
+    chrome.tabs.update(null, {
+      url: items.originCookieUrl
+    });
+  }
 
-document.addEventListener("DOMContentLoaded", () => {
   const testServerSelect = getElement("test-server");
 
   chrome.cookies.get(
     {
-      url: getOriginUrl(),
-      name: testServerCookieName
+      url: items.originCookieUrl,
+      name: items.testCookieName
     },
-    ({ value }) => {
-      testServerSelect.value = value;
+    cookie => {
+      if (!cookie) {
+        return;
+      }
+      testServerSelect.value = cookie.value;
     }
   );
 
   getElement("copy-dev-context").addEventListener("click", () => {
     chrome.cookies.get(
       {
-        url: getOriginUrl(),
-        name: getOriginName()
+        url: items.originCookieUrl,
+        name: items.originCookieName
       },
       cookie => {
         const { access, refresh } = JSON.parse(cookie.value);
@@ -46,14 +45,14 @@ document.addEventListener("DOMContentLoaded", () => {
       ([tab]) => {
         chrome.cookies.get(
           {
-            url: getOriginUrl(),
-            name: getOriginName()
+            url: items.originCookieUrl,
+            name: items.originCookieName
           },
           cookie => {
             chrome.cookies.set(
               {
                 url: tab.url,
-                name: getDestinationName(),
+                name: items.destinationCookieName,
                 value: cookie.value
               },
               () => {
@@ -70,8 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "change",
     function() {
       chrome.cookies.remove({
-        url: getOriginUrl(),
-        name: testServerCookieName
+        url: items.originCookieUrl,
+        name: items.testCookieName
       });
 
       if (this.value === "") {
@@ -80,9 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       chrome.cookies.set(
         {
-          url: getOriginUrl(),
-          domain: intDomain,
-          name: testServerCookieName,
+          url: items.originCookieUrl,
+          domain: items.testCookieDomain,
+          name: items.testCookieName,
           value: this.value,
           expirationDate: new Date(new Date().getFullYear() + 2, 1, 1).valueOf()
         },
