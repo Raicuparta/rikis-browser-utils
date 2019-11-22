@@ -1,10 +1,27 @@
 const log = args => chrome.extension.getBackgroundPage().console.log(args);
 const getElement = id => document.getElementById(id);
+const testServerCookieName = "NODE_SERVER_NAME";
+
+const getOriginName = () => getElement("origin-cookie-name").value;
+const getOriginUrl = () => getElement("origin-cookie-url").value;
+const getDestinationName = () => getElement("destination-cookie-name").value;
+const refresh = () =>
+  chrome.tabs.update(null, {
+    url: getOriginUrl()
+  });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const getOriginName = () => getElement("origin-cookie-name").value;
-  const getOriginUrl = () => getElement("origin-cookie-url").value;
-  const getDestinationName = () => getElement("destination-cookie-name").value;
+  const testServerSelect = getElement("test-server");
+
+  chrome.cookies.get(
+    {
+      url: getOriginUrl(),
+      name: testServerCookieName
+    },
+    ({ value }) => {
+      testServerSelect.value = value;
+    }
+  );
 
   getElement("copy-dev-context").addEventListener("click", () => {
     chrome.cookies.get(
@@ -47,6 +64,32 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
   });
+
+  testServerSelect.addEventListener(
+    "change",
+    function() {
+      chrome.cookies.remove({
+        url: getOriginUrl(),
+        name: testServerCookieName
+      });
+
+      if (this.value === "") {
+        return refresh();
+      }
+
+      chrome.cookies.set(
+        {
+          url: getOriginUrl(),
+          domain: "int.autoscout24.ch",
+          name: testServerCookieName,
+          value: this.value,
+          expirationDate: new Date(new Date().getFullYear() + 2, 1, 1).valueOf()
+        },
+        refresh
+      );
+    },
+    false
+  );
 });
 
 const template = (access, refresh) => `/* eslint-disable */
