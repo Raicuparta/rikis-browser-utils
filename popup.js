@@ -1,6 +1,7 @@
 const log = args => chrome.extension.getBackgroundPage().console.log(args);
 const getElement = id => document.getElementById(id);
 const testServerCookieName = "NODE_SERVER_NAME";
+const intDomain = "int.autoscout24.ch";
 
 const getOriginName = () => getElement("origin-cookie-name").value;
 const getOriginUrl = () => getElement("origin-cookie-url").value;
@@ -80,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
       chrome.cookies.set(
         {
           url: getOriginUrl(),
-          domain: "int.autoscout24.ch",
+          domain: intDomain,
           name: testServerCookieName,
           value: this.value,
           expirationDate: new Date(new Date().getFullYear() + 2, 1, 1).valueOf()
