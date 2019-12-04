@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "AS24 Test Server Select",
-  "version": "1.5",
+  "version": "1.6",
   "offline_enabled": true,
   "browser_action": {
     "default_title": "AS24 Test Server Select",
