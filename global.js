@@ -2,18 +2,6 @@
 const global = typeof chrome === "undefined" ? browser : chrome;
 
 const optionFields = {
-  originCookieName: {
-    defaultValue: "AS24ApiAuth_int",
-    name: "Origin Cookie Name"
-  },
-  originCookieUrl: {
-    defaultValue: "https://int.autoscout24.ch/de",
-    name: "Origin Cookie Url"
-  },
-  destinationCookieName: {
-    defaultValue: "AS24ApiAuth",
-    name: "Destination Cookie Name"
-  },
   testCookieName: {
     defaultValue: "NODE_SERVER_NAME",
     name: "Test Cookie Name"

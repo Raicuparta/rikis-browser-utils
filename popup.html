@@ -5,8 +5,8 @@
       body {
         margin: 0;
       }
-      p {
-        margin: 10px;
+      h3 {
+        margin: 15px 10px;
       }
       .list {
         display: flex;
@@ -17,12 +17,24 @@
         padding: 5px;
       }
       button.selected {
-        background: orange;
+        background: #ff7500;
+      }
+      button {
+        padding: 10px;
+        font-weight: 600;
+        border: 0;
+        color: #FFFFFF;
+        background-color: #00468b;
+        cursor: pointer;
+        outline: none;
+      }
+      button:hover {
+        background-color: #0052a5;
       }
     </style>
   </head>
   <body>
-    <p>Select Test Server</p>
+    <h3>Test Server:</h3>
     <div class="list">
       <button class="test-env" id="button-int" value="">Default INT (no cookie)</button>
       <button class="test-env" id="button-test1" value="test1">Test 1</button>
