@@ -3,6 +3,10 @@
     "{debe535b-cdae-4694-a3e7-832936c97aec}": {
       "updates": [
         {
+          "version": "1.5",
+          "update_link": "https://github.com/Raicuparta/rikis-browser-utils/releases/download/1.5-gecko/as24-test-server-select.xpi"
+        },
+        {
           "version": "1.4",
           "update_link": "https://github.com/Raicuparta/rikis-browser-utils/releases/download/1.4-gecko/as24-test-server-select.xpi"
         }
