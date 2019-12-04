@@ -3,33 +3,33 @@
   <head>
     <style>
       body {
+        margin: 0;
+      }
+      p {
+        margin: 10px;
+      }
+      .list {
         display: flex;
         flex-direction: column;
+        width: 150px;
       }
       button {
         padding: 5px;
-        margin-bottom: 10px;
       }
-      select {
-        font-size: 14px;
+      button.selected {
+        background: orange;
       }
     </style>
   </head>
   <body>
-    <button id="copy-dev-context">
-      DevContext to Clipboard
-    </button>
-    <button id="move-cookie">
-      Copy Cookie to this Tab
-    </button>
-    <label>Int Test Server</label>
-    <select id="test-server">
-      <option value="">Default Int (no cookie)</option>
-      <option value="test1">Test 1</option>
-      <option value="test2">Test 2</option>
-      <option value="test3">Test 3</option>
-      <option value="test4">Test 4</option>
-    </select>
+    <p>Select Test Server</p>
+    <div class="list">
+      <button class="test-env" id="button-int" value="">Default INT (no cookie)</button>
+      <button class="test-env" id="button-test1" value="test1">Test 1</button>
+      <button class="test-env" id="button-test2" value="test2">Test 2</button>
+      <button class="test-env" id="button-test3" value="test3">Test 3</button>
+      <button class="test-env" id="button-test4" value="test4">Test 4</button>
+    </div>
     <script src="global.js"></script>
     <script src="popup.js"></script>
   </body>

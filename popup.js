@@ -5,10 +5,8 @@ global.storage.local.get(optionKeyValues, items => {
   const refresh = () => {
     global.tabs.update(null, {
       url: items.originCookieUrl
-    });
+    }, window.close);
   }
-
-  const testServerSelect = getElement("test-server");
 
   global.cookies.get(
     {
@@ -16,80 +14,61 @@ global.storage.local.get(optionKeyValues, items => {
       name: items.testCookieName
     },
     cookie => {
-      if (!cookie) {
-        return;
-      }
-      testServerSelect.value = cookie.value;
+      Array.from(document.getElementsByClassName("test-env")).forEach(element => {
+        if ((element.id === `button-${cookie.value}`) || (element.id === 'button-int' && !cookie.value)) {
+          element.className = "test-env selected";
+        }
+
+        element.addEventListener("click", () => {
+          global.cookies.remove({
+            url: items.originCookieUrl,
+            name: items.testCookieName
+          });
+    
+          if (element.value === "") {
+            return refresh();
+          }
+    
+          global.cookies.set(
+            {
+              url: items.originCookieUrl,
+              domain: items.testCookieDomain,
+              name: items.testCookieName,
+              value: element.value,
+              expirationDate: new Date(new Date().getFullYear() + 2, 1, 1).valueOf()
+            },
+            refresh
+          );
+        });
+      })
     }
   );
 
-  getElement("copy-dev-context").addEventListener("click", () => {
-    global.cookies.get(
-      {
-        url: items.originCookieUrl,
-        name: items.originCookieName
-      },
-      cookie => {
-        const { access, refresh } = JSON.parse(cookie.value);
-        copyTextToClipboard(template(access.value, refresh.value));
-      }
-    );
-  });
+  // testServerSelect.addEventListener(
+  //   "change",
+  //   function() {
+  //     global.cookies.remove({
+  //       url: items.originCookieUrl,
+  //       name: items.testCookieName
+  //     });
 
-  getElement("move-cookie").addEventListener("click", () => {
-    global.tabs.query(
-      {
-        currentWindow: true,
-        active: true
-      },
-      ([tab]) => {
-        global.cookies.get(
-          {
-            url: items.originCookieUrl,
-            name: items.originCookieName
-          },
-          cookie => {
-            global.cookies.set(
-              {
-                url: tab.url,
-                name: items.destinationCookieName,
-                value: cookie.value
-              },
-              () => {
-                global.tabs.reload();
-              }
-            );
-          }
-        );
-      }
-    );
-  });
+  //     if (this.value === "") {
+  //       return refresh();
+  //     }
 
-  testServerSelect.addEventListener(
-    "change",
-    function() {
-      global.cookies.remove({
-        url: items.originCookieUrl,
-        name: items.testCookieName
-      });
-
-      if (this.value === "") {
-        return refresh();
-      }
-
-      global.cookies.set(
-        {
-          url: items.originCookieUrl,
-          domain: items.testCookieDomain,
-          name: items.testCookieName,
-          value: this.value,
-          expirationDate: new Date(new Date().getFullYear() + 2, 1, 1).valueOf()
-        },
-        refresh
-      );
-    },
-    false
-  );
+  //     global.cookies.set(
+  //       {
+  //         url: items.originCookieUrl,
+  //         domain: items.testCookieDomain,
+  //         name: items.testCookieName,
+  //         value: this.value,
+  //         expirationDate: new Date(new Date().getFullYear() + 2, 1, 1).valueOf()
+  //       },
+  //       refresh
+  //     );
+  //   },
+  //   false
+  // );
 });
 
 const template = (access, refresh) => `/* eslint-disable */
