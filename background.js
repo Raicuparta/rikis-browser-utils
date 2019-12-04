@@ -1,6 +1,8 @@
 // For compatibility with multiple browsers
 const global = typeof chrome === "undefined" ? browser : chrome;
 
+chrome.browserAction.setBadgeBackgroundColor({ color: '#003468' });
+
 function updateBadge() {
   global.cookies.get(
     {
@@ -14,4 +16,5 @@ function updateBadge() {
   );
 }
 
+updateBadge();
 global.cookies.onChanged.addListener(updateBadge);
