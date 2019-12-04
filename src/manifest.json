@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "AutoScout24 Dev Utils",
-  "version": "1.4",
+  "name": "AS24 Test Server Select",
+  "version": "1.5",
   "offline_enabled": true,
   "browser_action": {
-    "default_title": "AutoScout24 Dev Utils",
+    "default_title": "AS24 Test Server Select",
     "default_popup": "popup.html"
   },
   "background": {
@@ -16,5 +16,10 @@
   "icons": {
     "16": "icon-16.png",
     "128": "icon-128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "update_url": "https://raw.githubusercontent.com/Raicuparta/rikis-browser-utils/simple/gecko-updates.json"
+    }
   }
 }
