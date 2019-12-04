@@ -1,16 +1,16 @@
-const log = args => chrome.extension.getBackgroundPage().console.log(args);
+const log = args => global.extension.getBackgroundPage().console.log(args);
 const getElement = id => document.getElementById(id);
 
-chrome.storage.local.get(optionKeyValues, items => {
+global.storage.local.get(optionKeyValues, items => {
   const refresh = () => {
-    chrome.tabs.update(null, {
+    global.tabs.update(null, {
       url: items.originCookieUrl
     });
   }
 
   const testServerSelect = getElement("test-server");
 
-  chrome.cookies.get(
+  global.cookies.get(
     {
       url: items.originCookieUrl,
       name: items.testCookieName
@@ -24,7 +24,7 @@ chrome.storage.local.get(optionKeyValues, items => {
   );
 
   getElement("copy-dev-context").addEventListener("click", () => {
-    chrome.cookies.get(
+    global.cookies.get(
       {
         url: items.originCookieUrl,
         name: items.originCookieName
@@ -37,26 +37,26 @@ chrome.storage.local.get(optionKeyValues, items => {
   });
 
   getElement("move-cookie").addEventListener("click", () => {
-    chrome.tabs.query(
+    global.tabs.query(
       {
         currentWindow: true,
         active: true
       },
       ([tab]) => {
-        chrome.cookies.get(
+        global.cookies.get(
           {
             url: items.originCookieUrl,
             name: items.originCookieName
           },
           cookie => {
-            chrome.cookies.set(
+            global.cookies.set(
               {
                 url: tab.url,
                 name: items.destinationCookieName,
                 value: cookie.value
               },
               () => {
-                chrome.tabs.reload();
+                global.tabs.reload();
               }
             );
           }
@@ -68,7 +68,7 @@ chrome.storage.local.get(optionKeyValues, items => {
   testServerSelect.addEventListener(
     "change",
     function() {
-      chrome.cookies.remove({
+      global.cookies.remove({
         url: items.originCookieUrl,
         name: items.testCookieName
       });
@@ -77,7 +77,7 @@ chrome.storage.local.get(optionKeyValues, items => {
         return refresh();
       }
 
-      chrome.cookies.set(
+      global.cookies.set(
         {
           url: items.originCookieUrl,
           domain: items.testCookieDomain,

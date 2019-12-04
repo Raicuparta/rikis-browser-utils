@@ -12,12 +12,12 @@ Object.entries(optionFields).forEach(([id, { defaultValue, name }]) => {
   getElement("options-fields").appendChild(input);
 
   input.onkeydown = function () {
-    chrome.storage.local.set({ [this.id]: this.value });
+    global.storage.local.set({ [this.id]: this.value });
   }
 });
 
 function setupFields() {
-  chrome.storage.local.get(optionKeyValues, items => {
+  global.storage.local.get(optionKeyValues, items => {
     Object.keys(optionFields).forEach(id => {
       getElement(id).value = items[id];
     });
@@ -25,7 +25,7 @@ function setupFields() {
 }
 
 getElement('reset').addEventListener('click', function () {
-  chrome.storage.local.clear();
+  global.storage.local.clear();
   setupFields();
 });
 
