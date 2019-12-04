@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "AutoScout24 Dev Utils",
-  "version": "1.3",
+  "version": "1.4",
   "offline_enabled": true,
   "browser_action": {
     "default_title": "AutoScout24 Dev Utils",
@@ -12,7 +12,7 @@
     "persistent": false
   },
   "options_page": "options.html",
-  "permissions": ["cookies", "<all_urls>", "tabs", "storage", "clipboardWrite"],
+  "permissions": ["cookies", "*://int.autoscout24.ch/*", "tabs", "storage"],
   "icons": {
     "16": "icon-16.png",
     "128": "icon-128.png"
