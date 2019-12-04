@@ -12,7 +12,7 @@
     "persistent": false
   },
   "options_page": "options.html",
-  "permissions": ["cookies", "<all_urls>", "tabs", "storage"],
+  "permissions": ["cookies", "<all_urls>", "tabs", "storage", "clipboardWrite"],
   "icons": {
     "16": "icon-16.png",
     "128": "icon-128.png"
