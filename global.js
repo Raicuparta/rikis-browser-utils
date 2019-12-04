@@ -1,3 +1,6 @@
+// For compatibility with multiple browsers
+const global = typeof chrome === "undefined" ? browser : chrome;
+
 const optionFields = {
   originCookieName: {
     defaultValue: "AS24ApiAuth_int",

@@ -1,14 +1,17 @@
+// For compatibility with multiple browsers
+const global = typeof chrome === "undefined" ? browser : chrome;
+
 function updateBadge() {
-  browser.cookies.get(
+  global.cookies.get(
     {
       url: "https://int.autoscout24.ch/de",
       name: "NODE_SERVER_NAME"
     },
     cookie => {
       const text = cookie && cookie.value ? cookie.value.split("test")[1] : "";
-      browser.browserAction.setBadgeText({ text });
+      global.browserAction.setBadgeText({ text });
     }
   );
 }
 
-browser.cookies.onChanged.addListener(updateBadge);
+global.cookies.onChanged.addListener(updateBadge);
