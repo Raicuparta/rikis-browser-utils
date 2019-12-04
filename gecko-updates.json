@@ -5,6 +5,14 @@
         {
           "version": "1.4",
           "update_link": "https://github.com/Raicuparta/rikis-browser-utils/releases/download/1.4-gecko/as24-test-server-select.xpi"
+        },
+        {
+          "version": "1.5",
+          "update_link": "https://github.com/Raicuparta/rikis-browser-utils/releases/download/1.51-gecko/as24-test-server-select.xpi"
+        },
+        {
+          "version": "1.6",
+          "update_link": "https://github.com/Raicuparta/rikis-browser-utils/releases/download/1.6-gecko/as24-test-server-select.xpi"
         }
       ]
     }
