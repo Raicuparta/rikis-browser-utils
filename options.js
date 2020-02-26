@@ -11,7 +11,7 @@ Object.entries(optionFields).forEach(([id, { defaultValue, name }]) => {
   getElement("options-fields").appendChild(label);
   getElement("options-fields").appendChild(input);
 
-  input.onkeydown = function () {
+  input.onkeyup = function () {
     global.storage.local.set({ [this.id]: this.value });
   }
 });
