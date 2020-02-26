@@ -16,7 +16,7 @@ const fillAbacusFields = () => {
     to.focus();
     to.blur();
 
-    setTimeout(fillAbacusFields, 200);
+    setTimeout(fillAbacusFields, 100);
   }
 
   if (fromInputs.length === 2) {
@@ -28,7 +28,14 @@ const fillAbacusFields = () => {
     to.value = '17:54';
     to.focus();
     to.blur();
+
+    setTimeout(submit, 100);
   }
+}
+
+const submit = () => {
+  var button = document.getElementsByClassName("v-button-primary")[0];
+  button.click();
 }
 
 chrome.runtime.onMessage.addListener((message) => {
