@@ -26,6 +26,10 @@ const optionFields = {
     defaultValue: "https://int.autoscout24.ch/de",
     name: "Test Cookie Url"
   },
+  fillAbacus: {
+    defaultValue: false,
+    name: "[F] to Fill In & Out"
+  },
 };
 
 const optionKeyValues = {}

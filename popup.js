@@ -65,6 +65,25 @@ global.storage.local.get(optionKeyValues, items => {
     );
   });
 
+  getElement("abacus-in-out-checkbox").checked = items.fillAbacus;
+  getElement("abacus-in-out-checkbox").addEventListener("change", event => {
+    global.storage.local.set({ fillAbacus: event.target.checked });
+  });
+
+  getElement("abacus-in-out-button").addEventListener("click", () => {
+    window.close();
+    global.tabs.query(
+      {
+        currentWindow: true,
+        active: true
+      },
+      ([tab]) => {
+        log("hellado " + tab.id)
+        global.tabs.sendMessage(tab.id, "FillAbacus");
+      },
+    );
+  });
+
   testServerSelect.addEventListener(
     "change",
     function() {
