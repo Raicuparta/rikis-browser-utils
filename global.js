@@ -30,6 +30,22 @@ const optionFields = {
     defaultValue: false,
     name: "[F] to Fill In & Out"
   },
+  abacusMorningStart: {
+    defaultValue: "8:30",
+    name: "Acabus Morning Start"
+  },
+  abacusMorningEnd: {
+    defaultValue: "12:00",
+    name: "Acabus Morning End"
+  },
+  abacusAfternoonStart: {
+    defaultValue: "13:00",
+    name: "Acabus Afternoon Start"
+  },
+  abacusAfternoonEnd: {
+    defaultValue: "17:54",
+    name: "Acabus Afternoon End"
+  },
 };
 
 const optionKeyValues = {}
